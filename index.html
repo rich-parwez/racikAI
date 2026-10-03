@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8fafc" />
+  <meta name="description" content="Pustaka Prompt AI — Siap pakai untuk belajar, kerja, coding, dan bisnis." />
+  <title>RacikAI — Pustaka Prompt AI Siap Pakai</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app">
+    <!-- Navigation -->
+    <nav class="topbar" aria-label="Navigasi utama">
+      <a class="brand" href="#" aria-label="RacikAI Home">
+        <span class="brand-mark">✦</span>
+        <span class="brand-name">RacikAI</span>
+      </a>
+
+      <div class="topbar-actions">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Ganti tema">
+          <span class="theme-icon" aria-hidden="true">☾</span>
+        </button>
+        <a class="github-link" href="https://github.com" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="hero-badge"><span class="status-dot"></span> Pustaka Prompt AI Sehari-hari</div>
+      <h1>Selesaikan Tugas Lebih Cepat<br /><span>Dengan Prompt AI Pilihan.</span></h1>
+      <p>Cari prompt, sesuaikan isi variabelnya, dan langsung pakai di ChatGPT, Gemini, atau Claude.</p>
+
+      <!-- Main Search Box inside Hero -->
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Cari prompt, topik, atau kata kunci..."
+          autocomplete="off"
+          aria-label="Cari prompt"
+        />
+        <button type="button" class="clear-search" id="clear-search" aria-label="Hapus pencarian" hidden>×</button>
+        <span class="search-shortcut">⌘ K</span>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item"><strong id="stat-prompts">0</strong><span>Prompt Available</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><strong id="stat-categories">0</strong><span>Kategori</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><strong>100%</strong><span>Gratis</span></div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <section class="workspace">
+      <!-- Category Filter -->
+      <div class="categories-wrap">
+        <div class="categories" id="category-group" role="group" aria-label="Filter kategori">
+          <button type="button" class="chip active" aria-pressed="true" data-category="semua">Semua</button>
+          <button type="button" class="chip" aria-pressed="false" data-category="favorit">♥ Favorit <span class="chip-count" id="favorite-count">0</span></button>
+          <button type="button" class="chip" aria-pressed="false" data-category="pelajar">🎓 Pelajar & Skripsi</button>
+          <button type="button" class="chip" aria-pressed="false" data-category="pekerja">💼 Pekerja Kantor</button>
+          <button type="button" class="chip" aria-pressed="false" data-category="creator">📢 Content Creator</button>
+          <button type="button" class="chip" aria-pressed="false" data-category="coding">💻 Coding & Tech</button>
+          <button type="button" class="chip" aria-pressed="false" data-category="bisnis">🛒 Bisnis & UMKM</button>
+        </div>
+      </div>
+
+      <div class="library-meta">
+        <p class="result-info" id="result-info" aria-live="polite"></p>
+        <button type="button" class="recent-toggle" id="recent-toggle" hidden>Terakhir Digunakan ▾</button>
+      </div>
+
+      <!-- Recent Prompts -->
+      <section class="recent-section" id="recent-section" hidden aria-labelledby="recent-title">
+        <div class="subsection-heading">
+          <h3 id="recent-title">Terakhir Digunakan</h3>
+          <button type="button" id="close-recent" aria-label="Tutup daftar">Tutup</button>
+        </div>
+        <div class="recent-list" id="recent-list"></div>
+      </section>
+
+      <!-- Cards Grid -->
+      <section class="prompt-grid" id="prompt-grid" aria-live="polite"></section>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark small">✦</span><strong>RacikAI</strong></div>
+      <p>Prompt AI siap pakai untuk efisiensi belajar, bekerja, dan berkreasi.</p>
+      <span>© <span id="footer-year">2026</span> RacikAI.</span>
+    </div>
+  </footer>
+
+  <!-- Modal Customize Prompt -->
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button type="button" class="close-btn" id="modal-close" aria-label="Tutup">&times;</button>
+
+      <div class="modal-heading">
+        <span class="modal-eyebrow">CUSTOMIZE PROMPT</span>
+        <h2 id="modal-title">Sesuaikan Prompt</h2>
+        <p class="modal-desc">Lengkapi variabel di bawah untuk menghasilkan prompt kustom Anda.</p>
+      </div>
+
+      <form id="modal-form" class="modal-form">
+        <div id="dynamic-fields" class="dynamic-fields"></div>
+
+        <div class="field preview-field">
+          <div class="field-label-row">
+            <label for="modal-output">Hasil Prompt</label>
+            <span class="live-badge">LIVE PREVIEW</span>
+          </div>
+          <textarea id="modal-output" readonly rows="6"></textarea>
+        </div>
+
+        <p class="modal-note" id="modal-note" aria-live="polite"></p>
+
+        <div class="modal-actions">
+          <button type="button" id="modal-copy-btn" class="primary-btn">Salin Prompt Kustom</button>
+        </div>
+
+        <div class="ai-links">
+          <span>Langsung buka di:</span>
+          <a class="ai-link chatgpt" href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT ↗</a>
+          <a class="ai-link gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Gemini ↗</a>
+          <a class="ai-link claude" href="https://claude.ai" target="_blank" rel="noopener">Claude ↗</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
