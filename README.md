@@ -2,7 +2,6 @@
 
 **RacikAI** adalah aplikasi web ringan untuk mencari, menyesuaikan variabel, dan menyalin prompt AI (ChatGPT, Gemini, Claude) secara kilat.
 
-![Tampilan RacikAI](link-gambar-screenshot-kamu.png)
 
 ## ✨ Fitur Utama
 - 🔍 **Pencarian Cepat:** Cari prompt berdasarkan judul, deskripsi, atau kata kunci.
